@@ -52,6 +52,7 @@ android {
 
 val roomVersion = "2.5.2"
 val composeNavigation = "2.7.3"
+val koinVersion = "3.5.0"
 
 dependencies {
 
@@ -78,6 +79,10 @@ dependencies {
 
     // Compose Navigation
     implementation("androidx.navigation:navigation-compose:$composeNavigation")
+
+    // Koin
+    implementation("io.insert-koin:koin-android:$koinVersion")
+    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
 
 
 }
