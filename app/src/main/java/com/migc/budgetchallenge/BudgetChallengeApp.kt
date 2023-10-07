@@ -12,7 +12,7 @@ class BudgetChallengeApp: Application() {
         super.onCreate()
         startKoin{
             androidContext(this@BudgetChallengeApp)
-            modules(databaseModule)
+            modules(databaseModule, appModule)
         }
     }
 }

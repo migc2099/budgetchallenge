@@ -20,16 +20,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.migc.budgetchallenge.R
-import com.migc.budgetchallenge.domain.model.CategoryTrack
+import com.migc.budgetchallenge.domain.model.CategorySpending
 import com.migc.budgetchallenge.presentation.components.AmountsHeader
 import com.migc.budgetchallenge.presentation.components.CategoryItem
 import com.migc.budgetchallenge.presentation.components.DateHeader
@@ -38,55 +37,14 @@ import com.migc.budgetchallenge.ui.theme.HOME_CARD_ELEVATION
 import com.migc.budgetchallenge.ui.theme.HOME_CARD_ROUND_CORNER
 import com.migc.budgetchallenge.ui.theme.HOME_CARD_VERTICAL_PADDING
 import com.migc.budgetchallenge.ui.theme.mainTheme
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
-    val testList = listOf(
-        CategoryTrack(
-            icon = painterResource(id = R.drawable.ic_school),
-            title = "Education",
-            color = 0xFF64FFFF,
-            spent = 40.0,
-            budget = 300.0
-        ),
-        CategoryTrack(
-            icon = painterResource(id = R.drawable.ic_entertainment),
-            title = "Entertainment",
-            color = 0xFF69D044,
-            spent = 20.0,
-            budget = 160.0
-        ),
-        CategoryTrack(
-            icon = painterResource(id = R.drawable.ic_food),
-            title = "Food",
-            color = 0xFFBBBC44,
-            spent = 40.0,
-            budget = 300.0
-        ),
-        CategoryTrack(
-            icon = painterResource(id = R.drawable.ic_shopping),
-            title = "Shopping",
-            color = 0xFF64BC00,
-            spent = 30.0,
-            budget = 150.0
-        ),
-        CategoryTrack(
-            icon = painterResource(id = R.drawable.ic_outdoor_activities),
-            title = "Outdoor Activities",
-            color = 0xFFD59044,
-            spent = 5.0,
-            budget = 80.0
-        ),
-        CategoryTrack(
-            icon = painterResource(id = R.drawable.ic_transportation),
-            title = "Transportation",
-            color = 0xFF12BC44,
-            spent = 20.0,
-            budget = 100.0
-        )
-    )
-
+fun HomeScreen(
+    viewModel: HomeViewModel = koinViewModel()
+) {
+    val mSpendingTracks = viewModel.categorySpendings.collectAsState()
     val showDialog = remember { mutableStateOf(false) }
 
     Scaffold(
@@ -131,7 +89,7 @@ fun HomeScreen() {
                 ) {
                     DateHeader(month = 4, year = 2022)
                     AmountsHeader()
-                    TrackingList(categoryTracks = testList)
+                    TrackingList(categorySpendings = mSpendingTracks.value)
                 }
             }
             Text(
@@ -156,11 +114,11 @@ fun HomeScreen() {
 }
 
 @Composable
-fun TrackingList(categoryTracks: List<CategoryTrack>) {
+fun TrackingList(categorySpendings: List<CategorySpending>) {
     LazyColumn() {
-        items(categoryTracks) { category ->
+        items(categorySpendings) { spendingTrack ->
             CategoryItem(
-                category = category
+                categorySpending = spendingTrack
             )
         }
     }

@@ -2,7 +2,7 @@ package com.migc.budgetchallenge.domain.model
 
 import androidx.room.ColumnInfo
 
-data class SpendingTrack(
+data class CategorySpending(
     @ColumnInfo(name = "name") val categoryTitle: String,
     @ColumnInfo(name = "color") val categoryColor: Long,
     @ColumnInfo(name = "iconPath") val categoryIconPath: String,

@@ -14,15 +14,20 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.migc.budgetchallenge.R
-import com.migc.budgetchallenge.domain.model.CategoryTrack
+import com.migc.budgetchallenge.common.AppUtils.formatDecimal
+import com.migc.budgetchallenge.domain.model.CategorySpending
 import com.migc.budgetchallenge.ui.theme.ICON_PADDING
 import com.migc.budgetchallenge.ui.theme.ICON_SIZE
 import com.migc.budgetchallenge.ui.theme.LARGE_VERTICAL_PADDING
@@ -34,8 +39,9 @@ import com.migc.budgetchallenge.ui.theme.moneyColor
 
 @Composable
 fun CategoryItem(
-    category: CategoryTrack
+    categorySpending: CategorySpending
 ) {
+    val mContext = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -55,11 +61,21 @@ fun CategoryItem(
             Surface(
                 modifier = Modifier.size(ICON_SIZE),
                 shape = CircleShape,
-                color = Color(category.color)
+                color = Color(categorySpending.categoryColor)
             ) {
+                val iconResource by remember(categorySpending.categoryIconPath) {
+                    derivedStateOf {
+                        mContext.resources.getIdentifier(
+                            categorySpending.categoryIconPath,
+                            "drawable",
+                            mContext.packageName
+                        )
+                    }
+                }
+
                 Icon(
-                    painter = category.icon,
-                    contentDescription = category.title,
+                    painter = painterResource(id = iconResource),
+                    contentDescription = categorySpending.categoryTitle,
                     modifier = Modifier
                         .padding(horizontal = ICON_PADDING)
                         .fillMaxSize(),
@@ -73,7 +89,7 @@ fun CategoryItem(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = category.title,
+                    text = categorySpending.categoryTitle,
                     fontSize = Typography.titleMedium.fontSize,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -84,12 +100,13 @@ fun CategoryItem(
                         fontSize = Typography.labelLarge.fontSize,
                     )
                     Text(
-                        text = " $${category.spent} ",
+                        text = " $${formatDecimal(categorySpending.spent)} ",
                         color = moneyColor,
                         fontSize = Typography.labelLarge.fontSize,
                     )
                     Text(
-                        text = stringResource(id = R.string.of_text) + " $${category.budget}",
+                        text = stringResource(id = R.string.of_text) +
+                                " $${formatDecimal(categorySpending.categoryBudget)}",
                         color = Color.Gray,
                         fontSize = Typography.labelLarge.fontSize
                     )
@@ -101,7 +118,7 @@ fun CategoryItem(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "$${category.budget - category.spent}",
+                    text = "$${formatDecimal(categorySpending.categoryBudget - categorySpending.spent)}",
                     color = moneyColor,
                     fontSize = Typography.headlineSmall.fontSize,
                     fontWeight = FontWeight.SemiBold
@@ -110,11 +127,11 @@ fun CategoryItem(
             }
         }
         LinearProgressIndicator(
-            progress = 0.5f,
+            progress = (categorySpending.spent / categorySpending.categoryBudget).toFloat(),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(PROGRESS_BAR_HEIGHT),
-            color = Color(category.color),
+            color = Color(categorySpending.categoryColor),
             trackColor = Color.Gray
         )
 
@@ -126,12 +143,12 @@ fun CategoryItem(
 @Composable()
 fun CategoryItemPreview() {
     CategoryItem(
-        category = CategoryTrack(
-            icon = painterResource(id = R.drawable.ic_school),
-            title = "Education",
-            color = 0xFFCCD82A,
-            spent = 60.0,
-            budget = 100.0
+        categorySpending = CategorySpending(
+            categoryTitle = "Education",
+            categoryColor = 0xFFCCD82A,
+            categoryIconPath = "ic_school",
+            spent = 75.0,
+            categoryBudget = 100.0
         )
     )
 }
