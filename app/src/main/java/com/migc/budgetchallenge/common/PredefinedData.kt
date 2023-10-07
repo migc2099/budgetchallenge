@@ -11,8 +11,8 @@ object PredefinedData {
         CategoryEntity(2, "Transportation", 0xFFFDD835, "ic_transportation"),
         CategoryEntity(3, "Food", 0xFF1A237E, "ic_food"),
         CategoryEntity(4, "Shopping", 0xFF9FA8DA, "ic_shopping"),
-        CategoryEntity(5, "Outdoor Activities", 0xFF9800, "ic_outdoor_activities"),
-        CategoryEntity(6, "Entertainment", 0xFF8D6E63, "ic_entertainment"),
+        CategoryEntity(5, "Outdoor Activities", 0xFF8D6E63, "ic_outdoor_activities"),
+        CategoryEntity(6, "Entertainment", 0xFF980000, "ic_entertainment"),
     )
 
     val budgetList = listOf(
@@ -25,12 +25,15 @@ object PredefinedData {
     )
 
     val userTransactions = listOf(
-        UserTransactionEntity(1, 4, 2022, 1, 100.0),
-        UserTransactionEntity(2, 4, 2022, 2, 5.0),
+        UserTransactionEntity(1, 4, 2022, 1, 250.0),
+        UserTransactionEntity(2, 4, 2022, 2, 10.0),
         UserTransactionEntity(3, 4, 2022, 2, 10.0),
-        UserTransactionEntity(4, 4, 2022, 2, 10.0),
-        UserTransactionEntity(5, 4, 2022, 3, 40.0),
-        UserTransactionEntity(6, 4, 2022, 4, 50.0)
+        UserTransactionEntity(4, 4, 2022, 2, 20.0),
+        UserTransactionEntity(5, 4, 2022, 3, 100.0),
+        UserTransactionEntity(6, 4, 2022, 4, 110.0),
+        UserTransactionEntity(7, 4, 2022, 5, 20.0),
+        UserTransactionEntity(8, 4, 2022, 5, 30.0),
+        UserTransactionEntity(9, 4, 2022, 6, 50.0)
     )
 
 

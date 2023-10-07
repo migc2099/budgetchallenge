@@ -132,7 +132,7 @@ fun CategoryItem(
                 .fillMaxWidth()
                 .height(PROGRESS_BAR_HEIGHT),
             color = Color(categorySpending.categoryColor),
-            trackColor = Color.Gray
+            trackColor = Color.LightGray
         )
 
 

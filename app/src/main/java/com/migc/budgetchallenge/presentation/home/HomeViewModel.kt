@@ -28,6 +28,9 @@ class HomeViewModel(
         MutableStateFlow(emptyList())
     val categorySpendings: StateFlow<List<CategorySpending>> = _categorySpendings.asStateFlow()
 
+    private val _monthlyBudget: MutableStateFlow<Double> = MutableStateFlow(0.0)
+    val monthlyBudget: StateFlow<Double> = _monthlyBudget.asStateFlow()
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             databaseSetupUseCases.setupCategories()
@@ -39,6 +42,7 @@ class HomeViewModel(
                 _categorySpendings.value = spendings
                 _categorySpendings.value.forEach {
                     Log.d(LOG_TAG, "$it")
+                    _monthlyBudget.value = _monthlyBudget.value + it.categoryBudget
                 }
             }
         }

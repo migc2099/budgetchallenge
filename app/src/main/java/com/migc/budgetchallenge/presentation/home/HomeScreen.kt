@@ -45,6 +45,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel()
 ) {
     val mSpendingTracks = viewModel.categorySpendings.collectAsState()
+    val mMonthlyBudget = viewModel.monthlyBudget.collectAsState()
     val showDialog = remember { mutableStateOf(false) }
 
     Scaffold(
@@ -88,7 +89,10 @@ fun HomeScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     DateHeader(month = 4, year = 2022)
-                    AmountsHeader()
+                    AmountsHeader(
+                        categorySpendings = mSpendingTracks.value,
+                        monthlyBudget = mMonthlyBudget.value
+                    )
                     TrackingList(categorySpendings = mSpendingTracks.value)
                 }
             }

@@ -18,8 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import com.migc.budgetchallenge.R
+import com.migc.budgetchallenge.common.AppUtils.formatDecimal
+import com.migc.budgetchallenge.domain.model.CategorySpending
 import com.migc.budgetchallenge.ui.theme.TRACKER_HEADER_PADDING
 import com.migc.budgetchallenge.ui.theme.TRACKER_TOP_SPACER
 import com.migc.budgetchallenge.ui.theme.TRACK_BAR_HEIGHT
@@ -29,13 +33,18 @@ import com.migc.budgetchallenge.ui.theme.moneyColor
 
 @Composable
 fun AmountsHeader(
-
+    categorySpendings: List<CategorySpending>,
+    monthlyBudget: Double = 430.0
 ) {
-
-    val available = 1000.0
-    val spentEducation = 100.0 / available
-    val spentFood = 500.0 / available
-    val spentOutdoor = 40.0 / available
+    var totalSpent = 0.0
+    categorySpendings.forEach { spending ->
+        totalSpent += spending.spent
+    }
+    val availablePercentage = if (monthlyBudget > 0) {
+        formatDecimal((monthlyBudget - totalSpent) / monthlyBudget)
+    } else {
+        1f
+    }
 
     Column(modifier = Modifier.padding(TRACKER_HEADER_PADDING)) {
         Row(modifier = Modifier.fillMaxWidth()) {
@@ -45,15 +54,15 @@ fun AmountsHeader(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Spent",
+                    text = stringResource(id = R.string.text_spent),
                     color = Color.Gray,
-                    fontSize = Typography.titleLarge.fontSize,
+                    fontSize = Typography.titleMedium.fontSize,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = "$800",
+                    text = formatDecimal(totalSpent).toString(),
                     color = Color.Black,
-                    fontSize = Typography.headlineLarge.fontSize,
+                    fontSize = Typography.headlineMedium.fontSize,
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -63,15 +72,15 @@ fun AmountsHeader(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Available",
+                    text = stringResource(id = R.string.text_available),
                     color = Color.Gray,
-                    fontSize = Typography.titleLarge.fontSize,
+                    fontSize = Typography.titleMedium.fontSize,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = "$1200",
+                    text = formatDecimal(monthlyBudget - totalSpent).toString(),
                     color = moneyColor,
-                    fontSize = Typography.headlineLarge.fontSize,
+                    fontSize = Typography.headlineMedium.fontSize,
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -81,15 +90,15 @@ fun AmountsHeader(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Spent",
+                    text = stringResource(id = R.string.text_budget),
                     color = Color.Gray,
-                    fontSize = Typography.titleLarge.fontSize,
+                    fontSize = Typography.titleMedium.fontSize,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = "$2000",
+                    text = formatDecimal(monthlyBudget).toString(),
                     color = Color.Black,
-                    fontSize = Typography.headlineLarge.fontSize,
+                    fontSize = Typography.headlineMedium.fontSize,
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -97,55 +106,51 @@ fun AmountsHeader(
         Spacer(modifier = Modifier.height(TRACKER_TOP_SPACER))
 
         // Tracking Bar
-        Box(
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
                 .height(TRACK_BAR_HEIGHT)
-                .clip(
-                    shape = RoundedCornerShape(TRACK_BAR_ROUND_CORNER)
-                )
-                .background(Color.LightGray)
+                .fillMaxWidth()
+                .clip(shape = RoundedCornerShape(TRACK_BAR_ROUND_CORNER))
+                .background(Color.LightGray),
+            horizontalArrangement = Arrangement.Start
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                horizontalArrangement = Arrangement.Start
-            ) {
-                Surface(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth(spentEducation.toFloat()),
-                    color = Color.Blue
-                ) { }
-                Surface(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth(spentOutdoor.toFloat()),
-                    color = Color.Yellow
-                ) { }
-                Box(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth(spentFood.toFloat())
-                        .background(Color.Transparent)
-                ) {
+            categorySpendings.forEachIndexed { index, categorySpending ->
+                val spentPercentage = formatDecimal(categorySpending.spent / categorySpending.categoryBudget)
+                val budgetPercentage = formatDecimal(categorySpending.categoryBudget / monthlyBudget)
+                if (index == categorySpendings.lastIndex) {
                     Box(
                         modifier = Modifier
                             .fillMaxHeight()
-                            .fillMaxWidth(0.5f)
-                            .background(Color.Magenta)
-                    ) { }
+                            .weight(budgetPercentage.toFloat() * spentPercentage.toFloat())
+                            .background(Color.Transparent)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .fillMaxWidth(0.5f)
+                                .background(Color(categorySpending.categoryColor))
+                        ) { }
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .fillMaxWidth(),
+                            shape = RoundedCornerShape(TRACK_BAR_ROUND_CORNER),
+                            color = Color(categorySpending.categoryColor)
+                        ) {
+                        }
+                    }
+                } else {
                     Surface(
                         modifier = Modifier
                             .fillMaxHeight()
-                            .fillMaxWidth(),
-                        shape = RoundedCornerShape(TRACK_BAR_ROUND_CORNER),
-                        color = Color.Magenta
+                            .weight(budgetPercentage.toFloat() * spentPercentage.toFloat()),
+                        color = Color(categorySpending.categoryColor)
                     ) { }
                 }
             }
-
+            if (availablePercentage.toFloat() > 0) {
+                Spacer(modifier = Modifier.weight(availablePercentage.toFloat()))
+            }
         }
     }
 }
@@ -154,6 +159,6 @@ fun AmountsHeader(
 @Composable
 fun AmountsHeaderPreview() {
     AmountsHeader(
-
+        categorySpendings = emptyList()
     )
 }
