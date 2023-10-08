@@ -55,6 +55,8 @@ class HomeViewModel(
         }
     }
 
+    // Month and year are fixed constants for demonstration purposes only.
+    // In real life, both values would be obtained from UI interaction with a date widget/view
     fun onSaveUserTransactionClick(month: Int, year: Int, categoryId: Int, spent: Double) {
         viewModelScope.launch(Dispatchers.IO) {
             userTransactionUseCases.saveUserTransactionUseCase(month, year, categoryId, spent)
