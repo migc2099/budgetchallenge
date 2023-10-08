@@ -10,7 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import com.migc.budgetchallenge.R
+import com.migc.budgetchallenge.ui.theme.Typography
 import com.migc.budgetchallenge.ui.theme.mainTheme
 
 @Composable
@@ -45,7 +47,12 @@ fun RowScope.AddItem(
             )
         },
         label = {
-            Text(text = stringResource(id = screen.resourceTitle), color = mainTheme)
+            Text(
+                text = stringResource(id = screen.resourceTitle),
+                color = mainTheme,
+                fontSize = Typography.labelSmall.fontSize,
+                maxLines = 1
+            )
         },
         selected = false,
         onClick = { }

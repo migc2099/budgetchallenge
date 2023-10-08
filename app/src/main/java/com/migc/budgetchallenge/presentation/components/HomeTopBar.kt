@@ -1,7 +1,11 @@
 package com.migc.budgetchallenge.presentation.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -24,16 +28,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.migc.budgetchallenge.R
 import com.migc.budgetchallenge.ui.theme.HOME_CARD_ROUND_CORNER
 import com.migc.budgetchallenge.ui.theme.MEDIUM_HORIZONTAL_PADDING
+import com.migc.budgetchallenge.ui.theme.TOP_BAR_HEIGHT
 import com.migc.budgetchallenge.ui.theme.Typography
 import com.migc.budgetchallenge.ui.theme.mainTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopBar() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(TOP_BAR_HEIGHT / 2)
+            .background(mainTheme)
+    ) { }
     TopAppBar(
         title = {
             Row(
-                modifier = Modifier.fillMaxSize().padding(horizontal = MEDIUM_HORIZONTAL_PADDING),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = MEDIUM_HORIZONTAL_PADDING),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(

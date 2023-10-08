@@ -3,12 +3,13 @@ package com.migc.budgetchallenge.presentation.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.migc.budgetchallenge.common.Constants.MONTH
+import com.migc.budgetchallenge.common.Constants.YEAR
 import com.migc.budgetchallenge.domain.model.Category
 import com.migc.budgetchallenge.domain.model.CategorySpending
 import com.migc.budgetchallenge.domain.use_case.DatabaseSetupUseCases
 import com.migc.budgetchallenge.domain.use_case.UserTransactionUseCases
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,9 +37,8 @@ class HomeViewModel(
             databaseSetupUseCases.setupCategories()
             databaseSetupUseCases.setupBudgetUseCase()
             databaseSetupUseCases.setupUserTransactionsUseCase()
-            delay(200L)
             launch {
-                userTransactionUseCases.flowCategorySpendingByDateUseCase(4, 2022)
+                userTransactionUseCases.flowCategorySpendingByDateUseCase(MONTH, YEAR)
                     .collect { spendings ->
                         _monthlyBudget.value = 0.0
                         _categorySpendings.value = spendings

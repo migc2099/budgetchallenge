@@ -20,8 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,10 +40,10 @@ import com.migc.budgetchallenge.ui.theme.PROGRESS_BAR_HEIGHT
 import com.migc.budgetchallenge.ui.theme.SMALL_VERTICAL_PADDING
 import com.migc.budgetchallenge.ui.theme.Typography
 import com.migc.budgetchallenge.ui.theme.moneyColor
-import kotlinx.coroutines.delay
 
 @Composable
 fun CategoryItem(
+    modifier : Modifier,
     categorySpending: CategorySpending
 ) {
     val mContext = LocalContext.current
@@ -62,7 +60,7 @@ fun CategoryItem(
         )
     }
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(
                 vertical = LARGE_VERTICAL_PADDING
@@ -162,6 +160,7 @@ fun CategoryItem(
 @Composable()
 fun CategoryItemPreview() {
     CategoryItem(
+        modifier = Modifier,
         categorySpending = CategorySpending(
             categoryTitle = "Education",
             categoryColor = 0xFFCCD82A,

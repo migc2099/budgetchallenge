@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,6 +30,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.migc.budgetchallenge.R
 import com.migc.budgetchallenge.common.AppUtils.formatDecimal
 import com.migc.budgetchallenge.domain.model.CategorySpending
+import com.migc.budgetchallenge.ui.theme.DIVIDER_HEIGHT
+import com.migc.budgetchallenge.ui.theme.DIVIDER_WIDTH
+import com.migc.budgetchallenge.ui.theme.SMALL_VERTICAL_PADDING
 import com.migc.budgetchallenge.ui.theme.TRACKER_HEADER_PADDING
 import com.migc.budgetchallenge.ui.theme.TRACKER_TOP_SPACER
 import com.migc.budgetchallenge.ui.theme.TRACK_BAR_HEIGHT
@@ -98,7 +102,10 @@ fun AmountsHeader(
     }
 
     Column(modifier = Modifier.padding(TRACKER_HEADER_PADDING)) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.Center,
@@ -106,17 +113,24 @@ fun AmountsHeader(
             ) {
                 Text(
                     text = stringResource(id = R.string.text_spent),
-                    color = Color.Gray,
+                    color = Color.LightGray,
                     fontSize = Typography.titleMedium.fontSize,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = formatDecimal(totalSpentAnimation.value.toDouble()).toString(),
+                    text = "$${formatDecimal(totalSpentAnimation.value.toDouble())}",
                     color = Color.Black,
-                    fontSize = Typography.headlineMedium.fontSize,
+                    fontSize = Typography.headlineSmall.fontSize,
                     fontWeight = FontWeight.SemiBold
                 )
             }
+            Spacer(
+                modifier = Modifier
+                    .padding(vertical = SMALL_VERTICAL_PADDING)
+                    .height(DIVIDER_HEIGHT)
+                    .width(DIVIDER_WIDTH)
+                    .background(Color.Gray)
+            )
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.Center,
@@ -124,17 +138,24 @@ fun AmountsHeader(
             ) {
                 Text(
                     text = stringResource(id = R.string.text_available),
-                    color = Color.Gray,
+                    color = Color.LightGray,
                     fontSize = Typography.titleMedium.fontSize,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = formatDecimal(availableAmountAnimation.value.toDouble()).toString(),
+                    text = "$${formatDecimal(availableAmountAnimation.value.toDouble())}",
                     color = moneyColor,
-                    fontSize = Typography.headlineMedium.fontSize,
+                    fontSize = Typography.headlineSmall.fontSize,
                     fontWeight = FontWeight.SemiBold
                 )
             }
+            Spacer(
+                modifier = Modifier
+                    .padding(vertical = SMALL_VERTICAL_PADDING)
+                    .height(DIVIDER_HEIGHT)
+                    .width(DIVIDER_WIDTH)
+                    .background(Color.Gray)
+            )
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.Center,
@@ -147,9 +168,9 @@ fun AmountsHeader(
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = formatDecimal(monthlyBudgetAnimation.value.toDouble()).toString(),
+                    text = "$${formatDecimal(monthlyBudgetAnimation.value.toDouble())}",
                     color = Color.Black,
-                    fontSize = Typography.headlineMedium.fontSize,
+                    fontSize = Typography.headlineSmall.fontSize,
                     fontWeight = FontWeight.SemiBold
                 )
             }

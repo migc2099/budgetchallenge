@@ -28,7 +28,7 @@ interface UserTransactionDao {
                 "JOIN budget_table ON category_table.categoryId = budget_table.categoryId " +
                 "WHERE user_transaction_table.month=:month AND user_transaction_table.year=:year " +
                 "GROUP BY category_table.name " +
-                "ORDER BY spent DESC"
+                "ORDER BY spent ASC"
     )
     fun getUserTransactionsByDate(month: Int, year: Int): Flow<List<CategorySpending>>
 
