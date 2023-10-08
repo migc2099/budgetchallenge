@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.migc.budgetchallenge.domain.model.Category
 import com.migc.budgetchallenge.ui.theme.CHIP_HORIZONTAL_PADDING
 import com.migc.budgetchallenge.ui.theme.CHIP_PADDING
 import com.migc.budgetchallenge.ui.theme.CHIP_ROUND_CORNER
@@ -21,14 +22,14 @@ import com.migc.budgetchallenge.ui.theme.moneyColor
 
 @Composable
 fun CategoryChip(
-    item: String,
+    category: Category,
     isSelected: Boolean = false,
-    onClick: (String) -> Unit
+    onClick: (Int) -> Unit
 ) {
     Surface(
         modifier = Modifier.padding(CHIP_PADDING)
             .clickable {
-                onClick(item)
+                onClick(category.categoryId)
             },
         shape = RoundedCornerShape(CHIP_ROUND_CORNER),
         color = if (isSelected) moneyColor else Color.LightGray
@@ -42,7 +43,7 @@ fun CategoryChip(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = item,
+                text = category.name,
                 fontSize = Typography.titleSmall.fontSize
             )
         }
@@ -52,5 +53,5 @@ fun CategoryChip(
 @Preview
 @Composable
 fun CategoryChipPreview() {
-    CategoryChip(item = "Food", onClick = {})
+//    CategoryChip(category = Ca"Food", onClick = {})
 }

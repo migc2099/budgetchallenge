@@ -1,5 +1,6 @@
 package com.migc.budgetchallenge.presentation.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,6 +47,7 @@ fun HomeScreen(
 ) {
     val mSpendingTracks = viewModel.categorySpendings.collectAsState()
     val mMonthlyBudget = viewModel.monthlyBudget.collectAsState()
+    val mCategories = viewModel.categories.collectAsState()
     val showDialog = remember { mutableStateOf(false) }
 
     Scaffold(
@@ -104,11 +106,12 @@ fun HomeScreen(
 
         if (showDialog.value) {
             NewTransactionDialog(
+                categories = mCategories.value,
                 onDismiss = {
                     showDialog.value = false
                 },
                 onSaveClick = {
-
+                    Log.d("ONSAVE", "$it")
                 }
             )
         }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -19,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,6 +34,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import com.migc.budgetchallenge.R
+import com.migc.budgetchallenge.common.AppUtils.formatDecimal
+import com.migc.budgetchallenge.domain.model.Category
 import com.migc.budgetchallenge.ui.theme.DIALOG_BUTTON_HEIGHT
 import com.migc.budgetchallenge.ui.theme.DIALOG_BUTTON_WIDTH
 import com.migc.budgetchallenge.ui.theme.DIALOG_ROUND_CORNER
@@ -46,11 +50,13 @@ import com.migc.budgetchallenge.ui.theme.mainTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewTransactionDialog(
+    categories: List<Category>,
     onDismiss: () -> Unit,
-    onSaveClick: () -> Unit
+    onSaveClick: (Double) -> Unit
 ) {
 
     var spentValue by remember { mutableStateOf(value = TextFieldValue()) }
+    var categorySelected by remember { mutableIntStateOf(0) }
 
     Dialog(
         onDismissRequest = {
@@ -64,8 +70,14 @@ fun NewTransactionDialog(
                 LazyRow(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    items(6) {
-                        CategoryChip(item = "Food", onClick = {})
+                    items(categories) { category ->
+                        CategoryChip(
+                            category = category,
+                            isSelected = categorySelected == category.categoryId,
+                            onClick = {
+                                categorySelected = it
+                            }
+                        )
                     }
                 }
                 Row(
@@ -121,7 +133,7 @@ fun NewTransactionDialog(
                     }
                     Button(
                         onClick = {
-                            onSaveClick()
+                            onSaveClick(spentValue.text.toDouble())
                         },
                         modifier = Modifier
                             .width(DIALOG_BUTTON_WIDTH)
@@ -147,5 +159,5 @@ fun NewTransactionDialog(
 @Preview
 @Composable
 fun NewTransactionDialogPreview() {
-    NewTransactionDialog({}, {})
+    NewTransactionDialog(categories = emptyList(), {}, {})
 }

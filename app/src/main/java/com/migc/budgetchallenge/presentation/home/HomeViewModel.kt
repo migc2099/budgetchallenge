@@ -37,13 +37,19 @@ class HomeViewModel(
             databaseSetupUseCases.setupBudgetUseCase()
             databaseSetupUseCases.setupUserTransactionsUseCase()
             delay(200L)
-            userTransactionUseCases.flowCategorySpendingByDateUseCase(4, 2022)
-            userTransactionUseCases.flowCategorySpendingByDateUseCase(4, 2022).collect { spendings ->
-                _categorySpendings.value = spendings
-                _categorySpendings.value.forEach {
-                    Log.d(LOG_TAG, "$it")
-                    _monthlyBudget.value = _monthlyBudget.value + it.categoryBudget
-                }
+            launch {
+                userTransactionUseCases.flowCategorySpendingByDateUseCase(4, 2022)
+                    .collect { spendings ->
+                        _categorySpendings.value = spendings
+                        _categorySpendings.value.forEach {
+                            Log.d(LOG_TAG, "$it")
+                            _monthlyBudget.value = _monthlyBudget.value + it.categoryBudget
+                        }
+                    }
+            }
+
+            launch {
+                _categories.value = userTransactionUseCases.getCategoriesUseCase()
             }
         }
     }
