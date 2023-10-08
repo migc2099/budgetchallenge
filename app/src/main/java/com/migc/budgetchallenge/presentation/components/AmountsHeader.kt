@@ -1,5 +1,8 @@
 package com.migc.budgetchallenge.presentation.components
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,6 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +50,52 @@ fun AmountsHeader(
     } else {
         1f
     }
+    val availablePercentageAnimation = remember { Animatable(0.1f) }
+    LaunchedEffect(key1 = availablePercentage) {
+        availablePercentageAnimation.animateTo(
+            targetValue = availablePercentage.toFloat(),
+            animationSpec = tween(
+                durationMillis = 1000,
+                delayMillis = 500,
+                easing = FastOutSlowInEasing
+            )
+        )
+    }
+
+    val availableAmount = monthlyBudget - totalSpent
+    val availableAmountAnimation = remember { Animatable(0f) }
+    LaunchedEffect(key1 = totalSpent) {
+        availableAmountAnimation.animateTo(
+            targetValue = availableAmount.toFloat(),
+            animationSpec = tween(
+                durationMillis = 1000,
+                delayMillis = 500,
+                easing = FastOutSlowInEasing
+            )
+        )
+    }
+    val totalSpentAnimation = remember { Animatable(0f) }
+    LaunchedEffect(key1 = totalSpent) {
+        totalSpentAnimation.animateTo(
+            targetValue = totalSpent.toFloat(),
+            animationSpec = tween(
+                durationMillis = 1000,
+                delayMillis = 500,
+                easing = FastOutSlowInEasing
+            )
+        )
+    }
+    val monthlyBudgetAnimation = remember { Animatable(0f) }
+    LaunchedEffect(key1 = monthlyBudget) {
+        monthlyBudgetAnimation.animateTo(
+            targetValue = monthlyBudget.toFloat(),
+            animationSpec = tween(
+                durationMillis = 1000,
+                delayMillis = 500,
+                easing = FastOutSlowInEasing
+            )
+        )
+    }
 
     Column(modifier = Modifier.padding(TRACKER_HEADER_PADDING)) {
         Row(modifier = Modifier.fillMaxWidth()) {
@@ -60,7 +111,7 @@ fun AmountsHeader(
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = formatDecimal(totalSpent).toString(),
+                    text = formatDecimal(totalSpentAnimation.value.toDouble()).toString(),
                     color = Color.Black,
                     fontSize = Typography.headlineMedium.fontSize,
                     fontWeight = FontWeight.SemiBold
@@ -78,7 +129,7 @@ fun AmountsHeader(
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = formatDecimal(monthlyBudget - totalSpent).toString(),
+                    text = formatDecimal(availableAmountAnimation.value.toDouble()).toString(),
                     color = moneyColor,
                     fontSize = Typography.headlineMedium.fontSize,
                     fontWeight = FontWeight.SemiBold
@@ -96,7 +147,7 @@ fun AmountsHeader(
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = formatDecimal(monthlyBudget).toString(),
+                    text = formatDecimal(monthlyBudgetAnimation.value.toDouble()).toString(),
                     color = Color.Black,
                     fontSize = Typography.headlineMedium.fontSize,
                     fontWeight = FontWeight.SemiBold
@@ -115,8 +166,10 @@ fun AmountsHeader(
             horizontalArrangement = Arrangement.Start
         ) {
             categorySpendings.forEachIndexed { index, categorySpending ->
-                val spentPercentage = formatDecimal(categorySpending.spent / categorySpending.categoryBudget)
-                val budgetPercentage = formatDecimal(categorySpending.categoryBudget / monthlyBudget)
+                val spentPercentage =
+                    formatDecimal(categorySpending.spent / categorySpending.categoryBudget)
+                val budgetPercentage =
+                    formatDecimal(categorySpending.categoryBudget / monthlyBudget)
                 if (index == categorySpendings.lastIndex) {
                     Box(
                         modifier = Modifier
@@ -149,7 +202,7 @@ fun AmountsHeader(
                 }
             }
             if (availablePercentage.toFloat() > 0) {
-                Spacer(modifier = Modifier.weight(availablePercentage.toFloat()))
+                Spacer(modifier = Modifier.weight(availablePercentageAnimation.value))
             }
         }
     }

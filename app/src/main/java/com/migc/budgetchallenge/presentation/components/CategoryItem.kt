@@ -1,5 +1,8 @@
 package com.migc.budgetchallenge.presentation.components
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,8 +17,11 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,12 +42,25 @@ import com.migc.budgetchallenge.ui.theme.PROGRESS_BAR_HEIGHT
 import com.migc.budgetchallenge.ui.theme.SMALL_VERTICAL_PADDING
 import com.migc.budgetchallenge.ui.theme.Typography
 import com.migc.budgetchallenge.ui.theme.moneyColor
+import kotlinx.coroutines.delay
 
 @Composable
 fun CategoryItem(
     categorySpending: CategorySpending
 ) {
     val mContext = LocalContext.current
+
+    val spentAnimation = remember{ Animatable(0.1f) }
+    LaunchedEffect(key1 = categorySpending.spent){
+        spentAnimation.animateTo(
+            targetValue = (categorySpending.spent / categorySpending.categoryBudget).toFloat(),
+            animationSpec = tween(
+                durationMillis = 1000,
+                delayMillis = 500,
+                easing = FastOutSlowInEasing
+            )
+        )
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -127,7 +146,7 @@ fun CategoryItem(
             }
         }
         LinearProgressIndicator(
-            progress = (categorySpending.spent / categorySpending.categoryBudget).toFloat(),
+            progress = spentAnimation.value,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(PROGRESS_BAR_HEIGHT),
