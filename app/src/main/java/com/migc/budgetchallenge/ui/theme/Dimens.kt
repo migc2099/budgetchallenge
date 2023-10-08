@@ -2,6 +2,7 @@ package com.migc.budgetchallenge.ui.theme
 
 import androidx.compose.ui.unit.dp
 
+val TOP_BAR_HEIGHT = 84.dp
 val ICON_SIZE = 48.dp
 val ICON_PADDING = 8.dp
 val MEDIUM_HORIZONTAL_PADDING = 8.dp

@@ -1,7 +1,9 @@
 package com.migc.budgetchallenge.presentation.home
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,10 +36,12 @@ import com.migc.budgetchallenge.presentation.components.AmountsHeader
 import com.migc.budgetchallenge.presentation.components.CategoryItem
 import com.migc.budgetchallenge.presentation.components.DateHeader
 import com.migc.budgetchallenge.presentation.components.HomeBottomBar
+import com.migc.budgetchallenge.presentation.components.HomeTopBar
 import com.migc.budgetchallenge.presentation.components.NewTransactionDialog
 import com.migc.budgetchallenge.ui.theme.HOME_CARD_ELEVATION
 import com.migc.budgetchallenge.ui.theme.HOME_CARD_ROUND_CORNER
 import com.migc.budgetchallenge.ui.theme.HOME_CARD_VERTICAL_PADDING
+import com.migc.budgetchallenge.ui.theme.TOP_BAR_HEIGHT
 import com.migc.budgetchallenge.ui.theme.mainTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -53,7 +57,23 @@ fun HomeScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {},
+        topBar = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(TOP_BAR_HEIGHT),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(TOP_BAR_HEIGHT / 2)
+                    .background(mainTheme)
+                ) {
+
+                }
+            }
+            HomeTopBar()
+        },
         bottomBar = {
             HomeBottomBar()
         },
