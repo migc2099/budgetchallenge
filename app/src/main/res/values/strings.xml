@@ -10,4 +10,10 @@
     <string name="text_spent">Spent</string>
     <string name="text_available">Available</string>
     <string name="text_budget">Budget</string>
+
+    <string name="nav_home_title">Home</string>
+    <string name="nav_history_title">History</string>
+    <string name="nav_transactions_title">Transactions</string>
+    <string name="nav_goals_title">Goals</string>
+    <string name="nav_settings_title">Settings</string>
 </resources>

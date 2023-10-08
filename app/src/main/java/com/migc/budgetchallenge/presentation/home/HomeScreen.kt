@@ -33,6 +33,7 @@ import com.migc.budgetchallenge.domain.model.CategorySpending
 import com.migc.budgetchallenge.presentation.components.AmountsHeader
 import com.migc.budgetchallenge.presentation.components.CategoryItem
 import com.migc.budgetchallenge.presentation.components.DateHeader
+import com.migc.budgetchallenge.presentation.components.HomeBottomBar
 import com.migc.budgetchallenge.presentation.components.NewTransactionDialog
 import com.migc.budgetchallenge.ui.theme.HOME_CARD_ELEVATION
 import com.migc.budgetchallenge.ui.theme.HOME_CARD_ROUND_CORNER
@@ -53,7 +54,9 @@ fun HomeScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {},
-        bottomBar = {},
+        bottomBar = {
+            HomeBottomBar()
+        },
         floatingActionButton = {
             FloatingActionButton(
                 shape = CircleShape,
