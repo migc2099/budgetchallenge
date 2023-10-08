@@ -14,6 +14,9 @@ interface UserTransactionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUserTransaction(userTransactions: List<UserTransactionEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertUserTransaction(userTransaction: UserTransactionEntity)
+
     @Query(
         "SELECT category_table.name AS name, " +
                 "category_table.iconPath AS iconPath, " +

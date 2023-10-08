@@ -5,6 +5,7 @@ import com.migc.budgetchallenge.domain.repository.UserTransactionRepository
 import com.migc.budgetchallenge.domain.use_case.UserTransactionUseCases
 import com.migc.budgetchallenge.domain.use_case.user_transaction.FlowCategorySpendingByDateUseCase
 import com.migc.budgetchallenge.domain.use_case.user_transaction.GetCategoriesUseCase
+import com.migc.budgetchallenge.domain.use_case.user_transaction.SaveUserTransactionUseCase
 import com.migc.budgetchallenge.presentation.home.HomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -21,9 +22,13 @@ val appModule = module {
         GetCategoriesUseCase(userTransactionRepository = get())
     }
     single {
+        SaveUserTransactionUseCase(userTransactionRepository = get())
+    }
+    single {
         UserTransactionUseCases(
             flowCategorySpendingByDateUseCase = get(),
-            getCategoriesUseCase = get()
+            getCategoriesUseCase = get(),
+            saveUserTransactionUseCase = get()
         )
     }
 

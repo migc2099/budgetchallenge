@@ -8,5 +8,6 @@ interface UserTransactionRepository {
 
     fun getUserTransactionsByDate(month: Int, year: Int): Flow<List<CategorySpending>>
     suspend fun getCategories(): List<Category>
+    suspend fun saveUserTransaction(month: Int, year: Int, categoryId: Int, spent: Double)
 
 }

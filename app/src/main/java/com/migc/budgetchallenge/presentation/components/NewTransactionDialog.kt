@@ -33,6 +33,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
+import androidx.core.text.isDigitsOnly
 import com.migc.budgetchallenge.R
 import com.migc.budgetchallenge.common.AppUtils.formatDecimal
 import com.migc.budgetchallenge.domain.model.Category
@@ -42,6 +43,7 @@ import com.migc.budgetchallenge.ui.theme.DIALOG_ROUND_CORNER
 import com.migc.budgetchallenge.ui.theme.DIALOG_TEXT_FIELD_FRAME_HEIGHT
 import com.migc.budgetchallenge.ui.theme.LARGE_VERTICAL_PADDING
 import com.migc.budgetchallenge.ui.theme.MEDIUM_HORIZONTAL_PADDING
+import com.migc.budgetchallenge.ui.theme.SMALL_VERTICAL_PADDING
 import com.migc.budgetchallenge.ui.theme.TEXT_FIELD_HEIGHT
 import com.migc.budgetchallenge.ui.theme.TEXT_FIELD_WIDTH
 import com.migc.budgetchallenge.ui.theme.Typography
@@ -52,7 +54,7 @@ import com.migc.budgetchallenge.ui.theme.mainTheme
 fun NewTransactionDialog(
     categories: List<Category>,
     onDismiss: () -> Unit,
-    onSaveClick: (Double) -> Unit
+    onSaveClick: (Int, Double) -> Unit
 ) {
 
     var spentValue by remember { mutableStateOf(value = TextFieldValue()) }
@@ -67,6 +69,19 @@ fun NewTransactionDialog(
             shape = RoundedCornerShape(DIALOG_ROUND_CORNER)
         ) {
             Column(modifier = Modifier.padding(vertical = LARGE_VERTICAL_PADDING)) {
+                Text(
+                    text = stringResource(id = R.string.dialog_label),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            horizontal = MEDIUM_HORIZONTAL_PADDING,
+                            vertical = SMALL_VERTICAL_PADDING
+                        ),
+                    color = Color.Black,
+                    fontSize = Typography.titleMedium.fontSize,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 2
+                )
                 LazyRow(
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -133,7 +148,9 @@ fun NewTransactionDialog(
                     }
                     Button(
                         onClick = {
-                            onSaveClick(spentValue.text.toDouble())
+                            if (categorySelected > 0 && spentValue.text.trim().isNotEmpty()) {
+                                onSaveClick(categorySelected, spentValue.text.toDouble())
+                            }
                         },
                         modifier = Modifier
                             .width(DIALOG_BUTTON_WIDTH)
@@ -159,5 +176,5 @@ fun NewTransactionDialog(
 @Preview
 @Composable
 fun NewTransactionDialogPreview() {
-    NewTransactionDialog(categories = emptyList(), {}, {})
+    NewTransactionDialog(categories = emptyList(), {}, { _, _ -> })
 }

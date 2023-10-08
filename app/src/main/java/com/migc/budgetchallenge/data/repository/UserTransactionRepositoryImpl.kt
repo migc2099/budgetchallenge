@@ -1,6 +1,7 @@
 package com.migc.budgetchallenge.data.repository
 
 import com.migc.budgetchallenge.data.BudgetChallengeDatabase
+import com.migc.budgetchallenge.data.local.entity.UserTransactionEntity
 import com.migc.budgetchallenge.data.local.mapper.toCategory
 import com.migc.budgetchallenge.domain.model.Category
 import com.migc.budgetchallenge.domain.model.CategorySpending
@@ -19,6 +20,11 @@ class UserTransactionRepositoryImpl(
 
     override suspend fun getCategories(): List<Category> {
         return budgetChallengeDatabase.categoryDao.getCategories().map { it.toCategory() }
+    }
+
+    override suspend fun saveUserTransaction(month: Int, year: Int, categoryId: Int, spent: Double) {
+        val transaction = UserTransactionEntity(0,month, year, categoryId,spent)
+        budgetChallengeDatabase.userTransactionDao.insertUserTransaction(transaction)
     }
 
 }

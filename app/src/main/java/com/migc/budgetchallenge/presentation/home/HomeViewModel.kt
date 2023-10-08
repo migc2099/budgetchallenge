@@ -40,6 +40,7 @@ class HomeViewModel(
             launch {
                 userTransactionUseCases.flowCategorySpendingByDateUseCase(4, 2022)
                     .collect { spendings ->
+                        _monthlyBudget.value = 0.0
                         _categorySpendings.value = spendings
                         _categorySpendings.value.forEach {
                             Log.d(LOG_TAG, "$it")
@@ -51,6 +52,12 @@ class HomeViewModel(
             launch {
                 _categories.value = userTransactionUseCases.getCategoriesUseCase()
             }
+        }
+    }
+
+    fun onSaveUserTransactionClick(month: Int, year: Int, categoryId: Int, spent: Double) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userTransactionUseCases.saveUserTransactionUseCase(month, year, categoryId, spent)
         }
     }
 

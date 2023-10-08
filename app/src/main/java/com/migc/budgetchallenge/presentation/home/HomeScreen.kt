@@ -110,8 +110,9 @@ fun HomeScreen(
                 onDismiss = {
                     showDialog.value = false
                 },
-                onSaveClick = {
-                    Log.d("ONSAVE", "$it")
+                onSaveClick = { categoryId, spent ->
+                    viewModel.onSaveUserTransactionClick(4, 2022, categoryId, spent)
+                    showDialog.value = false
                 }
             )
         }
