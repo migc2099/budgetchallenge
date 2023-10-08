@@ -118,7 +118,8 @@ fun NewTransactionDialog(
                             width = TEXT_FIELD_WIDTH,
                             height = TEXT_FIELD_HEIGHT
                         ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        maxLines = 1
                     )
                 }
                 Row(
@@ -149,7 +150,9 @@ fun NewTransactionDialog(
                     Button(
                         onClick = {
                             if (categorySelected > 0 && spentValue.text.trim().isNotEmpty()) {
-                                onSaveClick(categorySelected, spentValue.text.toDouble())
+                                if (spentValue.text.count { it == '.' } <= 1 && !spentValue.text.contains(',')) {
+                                    onSaveClick(categorySelected, spentValue.text.toDouble())
+                                }
                             }
                         },
                         modifier = Modifier
