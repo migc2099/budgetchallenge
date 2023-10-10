@@ -1,6 +1,6 @@
 # Budget Challenge
 
-<img src="https://github.com/migc2099/budgetchallenge/blob/main/budget-screen.gif" width="300"/>
+<img src="https://github.com/migc2099/budgetchallenge/blob/main/budgetscreen.gif" width="300"/>
 
 - Room
 - Koin
