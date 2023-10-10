@@ -13,9 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.migc.budgetchallenge.R
 import com.migc.budgetchallenge.ui.theme.Typography
 import com.migc.budgetchallenge.ui.theme.moneyColor
 
@@ -39,7 +41,7 @@ fun DateHeader(
                     text = "April 2022",
                     color = moneyColor,
                     fontSize = Typography.titleSmall.fontSize,
-                    fontWeight = FontWeight.SemiBold
+                    fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                 )
                 Icon(
                     imageVector = Icons.Filled.ArrowDropDown,

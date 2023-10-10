@@ -24,6 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import com.migc.budgetchallenge.R
 import com.migc.budgetchallenge.ui.theme.HOME_CARD_ROUND_CORNER
@@ -53,7 +55,8 @@ fun HomeTopBar() {
                     text = stringResource(id = R.string.top_bar_title),
                     modifier = Modifier.padding(horizontal = MEDIUM_HORIZONTAL_PADDING),
                     color = Color.White,
-                    fontSize = Typography.titleMedium.fontSize
+                    fontSize = Typography.titleMedium.fontSize,
+                    fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                 )
                 Icon(
                     imageVector = Icons.Filled.KeyboardArrowDown,

@@ -30,8 +30,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
+import com.migc.budgetchallenge.R
 import com.migc.budgetchallenge.common.Constants.MONTH
 import com.migc.budgetchallenge.common.Constants.YEAR
 import com.migc.budgetchallenge.domain.model.CategorySpending
@@ -131,7 +133,7 @@ fun HomeScreen(
                     text = "6 months Snapshot",
                     color = Color.Black,
                     fontSize = Typography.titleMedium.fontSize,
-                    fontWeight = FontWeight.SemiBold
+                    fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                 )
             }
         }

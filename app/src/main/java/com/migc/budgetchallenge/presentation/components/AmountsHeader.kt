@@ -25,7 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import com.migc.budgetchallenge.R
 import com.migc.budgetchallenge.common.AppUtils.formatDecimal
@@ -113,15 +114,15 @@ fun AmountsHeader(
             ) {
                 Text(
                     text = stringResource(id = R.string.text_spent),
-                    color = Color.LightGray,
+                    color = Color.Gray,
                     fontSize = Typography.titleMedium.fontSize,
-                    fontWeight = FontWeight.SemiBold
+                    fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                 )
                 Text(
                     text = "$${formatDecimal(totalSpentAnimation.value.toDouble())}",
                     color = Color.Black,
-                    fontSize = Typography.headlineSmall.fontSize,
-                    fontWeight = FontWeight.SemiBold
+                    fontSize = Typography.titleLarge.fontSize,
+                    fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                 )
             }
             Spacer(
@@ -138,15 +139,15 @@ fun AmountsHeader(
             ) {
                 Text(
                     text = stringResource(id = R.string.text_available),
-                    color = Color.LightGray,
+                    color = Color.Gray,
                     fontSize = Typography.titleMedium.fontSize,
-                    fontWeight = FontWeight.SemiBold
+                    fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                 )
                 Text(
                     text = "$${formatDecimal(availableAmountAnimation.value.toDouble())}",
                     color = moneyColor,
-                    fontSize = Typography.headlineSmall.fontSize,
-                    fontWeight = FontWeight.SemiBold
+                    fontSize = Typography.titleLarge.fontSize,
+                    fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                 )
             }
             Spacer(
@@ -165,13 +166,13 @@ fun AmountsHeader(
                     text = stringResource(id = R.string.text_budget),
                     color = Color.Gray,
                     fontSize = Typography.titleMedium.fontSize,
-                    fontWeight = FontWeight.SemiBold
+                    fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                 )
                 Text(
                     text = "$${formatDecimal(monthlyBudgetAnimation.value.toDouble())}",
                     color = Color.Black,
-                    fontSize = Typography.headlineSmall.fontSize,
-                    fontWeight = FontWeight.SemiBold
+                    fontSize = Typography.titleLarge.fontSize,
+                    fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                 )
             }
         }

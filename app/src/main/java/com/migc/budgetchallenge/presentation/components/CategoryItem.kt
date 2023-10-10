@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,7 +28,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import com.migc.budgetchallenge.R
 import com.migc.budgetchallenge.common.AppUtils.formatDecimal
@@ -37,19 +39,20 @@ import com.migc.budgetchallenge.ui.theme.ICON_SIZE
 import com.migc.budgetchallenge.ui.theme.LARGE_VERTICAL_PADDING
 import com.migc.budgetchallenge.ui.theme.MEDIUM_HORIZONTAL_PADDING
 import com.migc.budgetchallenge.ui.theme.PROGRESS_BAR_HEIGHT
+import com.migc.budgetchallenge.ui.theme.SMALL_HORIZONTAL_PADDING
 import com.migc.budgetchallenge.ui.theme.SMALL_VERTICAL_PADDING
 import com.migc.budgetchallenge.ui.theme.Typography
 import com.migc.budgetchallenge.ui.theme.moneyColor
 
 @Composable
 fun CategoryItem(
-    modifier : Modifier,
+    modifier: Modifier,
     categorySpending: CategorySpending
 ) {
     val mContext = LocalContext.current
 
-    val spentAnimation = remember{ Animatable(0.1f) }
-    LaunchedEffect(key1 = categorySpending.spent){
+    val spentAnimation = remember { Animatable(0.1f) }
+    LaunchedEffect(key1 = categorySpending.spent) {
         spentAnimation.animateTo(
             targetValue = (categorySpending.spent / categorySpending.categoryBudget).toFloat(),
             animationSpec = tween(
@@ -103,44 +106,57 @@ fun CategoryItem(
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = MEDIUM_HORIZONTAL_PADDING),
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Text(
                     text = categorySpending.categoryTitle,
                     fontSize = Typography.titleMedium.fontSize,
-                    fontWeight = FontWeight.SemiBold
+                    fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                 )
-                Row {
+                Spacer(modifier = Modifier.height(SMALL_VERTICAL_PADDING))
+                Row(
+                    verticalAlignment = Alignment.Bottom
+                ) {
                     Text(
                         text = stringResource(id = R.string.spent_text),
                         color = Color.Gray,
-                        fontSize = Typography.labelLarge.fontSize,
+                        fontSize = Typography.titleSmall.fontSize,
+                        fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                     )
                     Text(
                         text = " $${formatDecimal(categorySpending.spent)} ",
                         color = moneyColor,
-                        fontSize = Typography.labelLarge.fontSize,
+                        fontSize = Typography.titleSmall.fontSize,
+                        fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                     )
                     Text(
                         text = stringResource(id = R.string.of_text) +
                                 " $${formatDecimal(categorySpending.categoryBudget)}",
                         color = Color.Gray,
-                        fontSize = Typography.labelLarge.fontSize
+                        fontSize = Typography.titleSmall.fontSize,
+                        fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                     )
                 }
             }
             Column(
-                modifier = Modifier.padding(horizontal = MEDIUM_HORIZONTAL_PADDING),
-                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.padding(
+                    end = SMALL_HORIZONTAL_PADDING
+                ),
+                verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = "$${formatDecimal(categorySpending.categoryBudget - categorySpending.spent)}",
                     color = moneyColor,
-                    fontSize = Typography.headlineSmall.fontSize,
-                    fontWeight = FontWeight.SemiBold
+                    fontSize = Typography.titleLarge.fontSize,
+                    fontFamily = FontFamily(Font(R.font.avenirnext_demi))
                 )
-                Text(text = stringResource(id = R.string.left_text))
+                Text(
+                    text = stringResource(id = R.string.left_text),
+                    fontSize = Typography.labelLarge.fontSize,
+                    color = Color.DarkGray,
+                    fontFamily = FontFamily(Font(R.font.avenirnext_demi))
+                )
             }
         }
         LinearProgressIndicator(

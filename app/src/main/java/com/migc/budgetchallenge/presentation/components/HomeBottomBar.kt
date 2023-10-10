@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import com.migc.budgetchallenge.R
 import com.migc.budgetchallenge.ui.theme.Typography
@@ -51,6 +53,7 @@ fun RowScope.AddItem(
                 text = stringResource(id = screen.resourceTitle),
                 color = mainTheme,
                 fontSize = Typography.labelSmall.fontSize,
+                fontFamily = FontFamily(Font(R.font.avenirnext_demi)),
                 maxLines = 1
             )
         },
